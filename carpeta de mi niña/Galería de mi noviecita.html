@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARA LA MEJOR NOVIA DEL MUNDO</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffb3f2; /* Fondo rosa pastel */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h2 {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Contenedor de la galería adaptable */
+        .gallery-container {
+            width: 90%;
+            max-width: 400px; /* Tamaño ideal para móvil */
+            overflow: hidden;
+            border: 5px solid #fff;
+            border-radius: 20px;
+            background: #fff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .gallery {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .gallery img {
+            width: 100%; /* La imagen ocupa todo el ancho del contenedor */
+            flex-shrink: 0;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        /* Botones más grandes para dedos */
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .button-container button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            touch-action: manipulation;
+        }
+
+        .button-container button:active {
+            transform: scale(0.95);
+            background-color: #ff1493;
+        }
+
+        .instruction {
+            color: #fff;
+            font-size: 14px;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Sticker decorativo */
+        .sticker {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 60px;
+            height: 60px;
+            pointer-events: none;
+        }
+
+        /* Ajuste para pantallas muy pequeñas */
+        @media (max-width: 350px) {
+            .gallery-container { width: 95%; }
+            .button-container button { padding: 10px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h2>❤️ Para mi niña hermosa ❤️</h2>
+
+    <div class="gallery-container">
+        <div class="gallery" id="gallery">
+            <img src="../carpeta de mi niña/photos/photo 1.jpeg" alt="Foto 1" onclick="openPhoto1()">
+            <img src="../carpeta de mi niña/photos/photo 2.jpeg" alt="Foto 2" onclick="openPhoto2()">
+            <img src="../carpeta de mi niña/photos/photo 3.jpeg" alt="Foto 3" onclick="openPhoto3()">
+            <img src="../carpeta de mi niña/photos/photo 4.jpeg" alt="Foto 4" onclick="openPhoto4()">
+            <img src="../carpeta de mi niña/photos/photo 5.jpeg" alt="Foto 5" onclick="openPhoto5()">
+            <img src="../carpeta de mi niña/photos/photo 6.jpeg" alt="Foto 6" onclick="openPhoto6()">
+        </div>
+    </div>
+
+    <p class="instruction">Toca la foto para leer un mensaje</p>
+
+    <div class="button-container">
+        <button onclick="scrollGallery(-1)">⬅️</button>
+        <button onclick="scrollGallery(1)">➡️</button>
+    </div>
+
+    <script>
+        let currentIndex = 0;
+        const gallery = document.getElementById('gallery');
+        const images = document.querySelectorAll('.gallery img');
+        const totalImages = images.length;
+
+        function scrollGallery(direction) {
+            currentIndex += direction;
+
+            // Bucle infinito: si llega al final vuelve al principio
+            if (currentIndex >= totalImages) currentIndex = 0;
+            if (currentIndex < 0) currentIndex = totalImages - 1;
+
+            const offset = -currentIndex * 100;
+            gallery.style.transform = `translateX(${offset}%)`;
+        }
+
+        function createWindow(title, mainText, additionalText) {
+            // Nota: En móviles, window.open puede ser bloqueado. 
+            // Si eso pasa, es mejor usar un "Modal" dentro de la misma página.
+            const newWindow = window.open("", "_blank");
+            if (!newWindow) {
+                alert("Por favor, permite las ventanas emergentes para ver los mensajes ❤️");
+                return;
+            }
+            newWindow.document.write(`
+                <html>
+                    <head>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>${title}</title>
+                        <style>
+                            body {
+                                font-family: sans-serif;
+                                text-align: center;
+                                padding: 30px 20px;
+                                background-color: #ffe4e1;
+                                line-height: 1.6;
+                            }
+                            h1 { color: #ff69b4; font-size: 24px; }
+                            p { font-size: 18px; color: #444; text-align: justify; }
+                            .close-btn { 
+                                margin-top: 20px; 
+                                background: #ff69b4; 
+                                color: white; 
+                                border: none; 
+                                padding: 10px 20px; 
+                                border-radius: 20px;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>${mainText}</h1>
+                        <p>${additionalText}</p>
+                        <button class="close-btn" onclick="window.close()">Cerrar mensaje</button>
+                    </body>
+                </html>
+            `);
+            newWindow.document.close();
+        }
+
+        // Tus funciones se mantienen igual
+        function openPhoto1() { createWindow("Para ti mi niña<3", "EN LO BONITA QUE TE VEZ CON LENTES<3","Eres tan hermosa con tu estilo único..."); }
+        function openPhoto2() { createWindow("Para ti mi niña<3", "LO HERMOSA QUE TE VEZ<3", "Tu belleza siempre ilumina mi día..."); }
+        function openPhoto3() { createWindow("Para ti mi niña<3", "TAN ÚNICA CON UNIFORME<3", "Tu autenticidad te hace especial..."); }
+        function openPhoto4() { createWindow("Para ti mi niña<3", "LA MARAVILLOSA MÚSICO QUE ERES MI AMOR<3", "Tu pasión por la música me inspira..."); }
+        function openPhoto5() { createWindow("Para ti mi niña<3", "SIEMPRE SERÁS MI NIÑA<3", "Siempre serás la joya más preciosa..."); }
+        function openPhoto6() { createWindow("Para ti mi niña<3", "MI ESTRELLA FAVORITA", "Muchas gracias por hacerme tan feliz..."); }
+    </script>
+</body>
+</html>
